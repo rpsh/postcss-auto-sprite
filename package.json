@@ -1,0 +1,31 @@
+{
+    "name": "postcss-auto-sprite",
+    "version": "1.0.0",
+    "description": "PostCSS Auto Sprite plugin that generates css and sprites which grouped by directory from your stylesheets",
+    "keywords": [
+        "postcss",
+        "postcss autosprite",
+        "auto sprite",
+        "css auto sprite",
+        "image",
+        "css"
+    ],
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "rpsh",
+    "license": "MIT",
+    "repository": "rpsh/postcss-auto-sprite",
+    "bugs": {
+        "url": "https://github.com/rpsh/postcss-auto-sprite/issues"
+    },
+    "homepage": "https://github.com/rpsh/postcss-auto-sprite",
+    "dependencies": {
+        "fs-extra": "^7.0.1",
+        "gulp-postcss": "^8.0.0",
+        "spritesmith": "^3.1.1",
+        "svg-sprite": "^1.5.0",
+        "rev-hash": "^2.0.0"
+    }
+}
