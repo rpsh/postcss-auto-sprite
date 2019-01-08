@@ -25,6 +25,7 @@ gulp.task("css", () => {
           imgPath: __dirname + "/img/",
           sliceDir: "slice",
           spriteDir: "sprite",
+          spriteDisplay: "../img/sprite",
           spritesmithOptions: {
             padding: 10
           },

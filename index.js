@@ -18,7 +18,7 @@ var SVG_CONFIG = {
     },
     shape: {
         id: {
-            generator: function(name, file) {
+            generator: function (name, file) {
                 return file.path;
             }
         },
@@ -109,13 +109,14 @@ module.exports = postcss.plugin("postcss-sprite", (options = {}) => {
             imgPath = "../img/",
             sliceDir = "slice",
             spriteDir = "sprite",
+            spriteDisplay = "../img/sprite",
             filter = url => ~url.indexOf(sliceDir + "/"),
             replaceUrl,
             spritesmithOptions = {},
             revision = true
     } = options;
 
-    replaceUrl || (replaceUrl = spriteName => (imgPath + spriteDir + '/') + spriteName);
+    replaceUrl || (replaceUrl = spriteName => spriteDisplay + spriteName);
 
     let sourcePath = imgPath + sliceDir + "/",
         outputPath = path.resolve(imgPath + spriteDir);
@@ -190,7 +191,7 @@ module.exports = postcss.plugin("postcss-sprite", (options = {}) => {
                 );
             });
 
-            svgSpriter.compile(function(error, result, data) {
+            svgSpriter.compile(function (error, result, data) {
 
                 // 保存 svg sprite 到 sprite 目录
                 fs.outputFileSync(
