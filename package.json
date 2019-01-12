@@ -1,10 +1,11 @@
 {
     "name": "postcss-auto-sprite",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "PostCSS Auto Sprite plugin that generates css and sprites which grouped by directory from your stylesheets",
     "keywords": [
         "postcss",
-        "postcss autosprite",
+        "postcss auto sprite",
+        "autosprite",
         "auto sprite",
         "css auto sprite",
         "image",

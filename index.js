@@ -18,7 +18,7 @@ var SVG_CONFIG = {
     },
     shape: {
         id: {
-            generator: function (name, file) {
+            generator: function(name, file) {
                 return file.path;
             }
         },
@@ -103,6 +103,14 @@ function getDir(url, outputPath, ext) {
     )
 }
 
+function hashedFilename(url, hash, revision) {
+    if (hash && revision === 'filename') {
+        let ext = path.extname(url)
+        url = url.replace(ext, '.' + hash + ext)
+    }
+    return url
+}
+
 module.exports = postcss.plugin("postcss-sprite", (options = {}) => {
     let {
         baseSize = 16,
@@ -113,7 +121,7 @@ module.exports = postcss.plugin("postcss-sprite", (options = {}) => {
             filter = url => ~url.indexOf(sliceDir + "/"),
             replaceUrl,
             spritesmithOptions = {},
-            revision = true
+            revision = 'query'
     } = options;
 
     replaceUrl || (replaceUrl = spriteName => spriteDisplay + spriteName);
@@ -191,17 +199,17 @@ module.exports = postcss.plugin("postcss-sprite", (options = {}) => {
                 );
             });
 
-            svgSpriter.compile(function (error, result, data) {
+            svgSpriter.compile(function(error, result, data) {
+                let rev = revHash(result.css.sprite.contents);
+                let fileName = hashedFilename(spriteNames.svg[index], rev, revision);
 
                 // 保存 svg sprite 到 sprite 目录
                 fs.outputFileSync(
-                    spriteNames.svg[index],
+                    fileName,
                     result.css.sprite.contents
                 );
 
                 data.css.shapes.forEach(item => {
-                    let rev = revHash(result.css.sprite.contents);
-
                     spriteSoordinates[item.name] = {
                         x: item.position.absolute.x * -1,
                         y: item.position.absolute.y * -1,
@@ -209,7 +217,7 @@ module.exports = postcss.plugin("postcss-sprite", (options = {}) => {
                         height: item.height.inner,
                         spriteWidth: data.css.spriteWidth,
                         spriteHeight: data.css.spriteHeight,
-                        spriteName: spriteNames.svg[index],
+                        spriteName: fileName,
                         rev: rev
                     }
                 })
@@ -220,13 +228,20 @@ module.exports = postcss.plugin("postcss-sprite", (options = {}) => {
             .then(result => {
                 result.forEach(async (item, index) => {
                     let rev = revHash(item.image);
-                    fs.outputFileSync(spriteNames.img[index], item.image);
+                    let fileName = hashedFilename(spriteNames.img[index], rev, revision);
+
+                    // 保存 image sprite 到 sprite 目录
+                    fs.outputFileSync(
+                        fileName,
+                        item.image
+                    );
+
                     Object.assign(
                         spriteSoordinates,
                         appendObject(item.coordinates, {
                             spriteWidth: item.properties.width,
                             spriteHeight: item.properties.height,
-                            spriteName: spriteNames.img[index],
+                            spriteName: fileName,
                             rev: rev
                         })
                     );
@@ -283,7 +298,7 @@ module.exports = postcss.plugin("postcss-sprite", (options = {}) => {
 
                         let _url = replaceUrl(path.basename(spriteName));
 
-                        if (revision) {
+                        if (revision && revision == 'query') {
                             _url += `?v=${rev}`;
                         }
 

@@ -10,7 +10,7 @@ $ npm install postcss-auto-sprite --save-dev
 
 ## Usage
 
-- ### Use gulp
+### Use gulp
 
 ```js
 const gulp = require("gulp");
@@ -26,6 +26,7 @@ gulp.task("css", () => {
           sliceDir: "slice",
           spriteDir: "sprite",
           spriteDisplay: "../img/sprite",
+          revision: "query", // 'filename' or 'query'
           spritesmithOptions: {
             padding: 10
           },

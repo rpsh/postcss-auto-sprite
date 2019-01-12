@@ -1,0 +1,17 @@
+{
+    "name": "postcss-auto-sprite-example",
+    "version": "1.0.0",
+    "description": "example",
+    "main": "gulpfile.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "del": "^3.0.0",
+        "gulp-sass": "^4.0.2",
+        "gulp-postcss": "^8.0.0",
+        "postcss-auto-sprite": "^1.0.2"
+    }
+}
