@@ -27,6 +27,7 @@ gulp.task("css", () => {
           spriteDir: "sprite",
           spriteDisplay: "../img/sprite",
           revision: "query", // 'filename' or 'query'
+          unit: "px", // 'px' or 'rem'
           spritesmithOptions: {
             padding: 10
           },

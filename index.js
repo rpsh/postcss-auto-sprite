@@ -18,7 +18,7 @@ var SVG_CONFIG = {
     },
     shape: {
         id: {
-            generator: function(name, file) {
+            generator: function (name, file) {
                 return file.path;
             }
         },
@@ -114,6 +114,7 @@ function hashedFilename(url, hash, revision) {
 module.exports = postcss.plugin("postcss-sprite", (options = {}) => {
     let {
         baseSize = 16,
+            unit = 'px',
             imgPath = "../img/",
             sliceDir = "slice",
             spriteDir = "sprite",
@@ -199,7 +200,7 @@ module.exports = postcss.plugin("postcss-sprite", (options = {}) => {
                 );
             });
 
-            svgSpriter.compile(function(error, result, data) {
+            svgSpriter.compile(function (error, result, data) {
                 let rev = revHash(result.css.sprite.contents);
                 let fileName = hashedFilename(spriteNames.svg[index], rev, revision);
 
@@ -283,11 +284,13 @@ module.exports = postcss.plugin("postcss-sprite", (options = {}) => {
                             rev
                         } = result[path.resolve(sourcePath, url)];
 
-                        let unit = "px";
+                        let size = dpr || 1;
 
-                        if (dpr) {
-                            let size = dpr * baseSize;
-                            unit = "rem";
+                        if (unit === 'rem') {
+                            size = (dpr || 1) * baseSize;
+                        }
+
+                        if (size > 1) {
                             w /= size;
                             h /= size;
                             x /= size;

@@ -33,6 +33,7 @@ gulp.task('sass', gulp.series('clean', () => {
                     spriteDir: "sprite",
                     spriteDisplay: "../img/sprite/",
                     revision: 'query',
+                    unit: 'px',
                     spritesmithOptions: {
                         padding: 10
                     }

@@ -10,8 +10,8 @@
     "license": "MIT",
     "devDependencies": {
         "del": "^3.0.0",
-        "gulp-sass": "^4.0.2",
         "gulp-postcss": "^8.0.0",
-        "postcss-auto-sprite": "^1.0.2"
+        "gulp-sass": "^4.0.2",
+        "postcss-auto-sprite": "^1.0.3"
     }
 }
