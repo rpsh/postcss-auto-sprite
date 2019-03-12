@@ -11,6 +11,7 @@ var SVG_CONFIG = {
         css: {
             dimensions: true,
             bust: false,
+            layout: 'vertical',
             render: {
                 scss: true
             }
@@ -204,18 +205,21 @@ module.exports = postcss.plugin("postcss-sprite", (options = {}) => {
                 let rev = revHash(result.css.sprite.contents);
                 let fileName = hashedFilename(spriteNames.svg[index], rev, revision);
 
+                let svgFile = result.css.sprite.contents || '';
+                svgFile = svgFile.toString().replace(/id=\"[^\"]*\.svg\"\s?/gi, '')
+
                 // 保存 svg sprite 到 sprite 目录
                 fs.outputFileSync(
                     fileName,
-                    result.css.sprite.contents
+                    svgFile
                 );
 
                 data.css.shapes.forEach(item => {
                     spriteSoordinates[item.name] = {
                         x: item.position.absolute.x * -1,
                         y: item.position.absolute.y * -1,
-                        width: item.width.inner,
-                        height: item.height.inner,
+                        width: item.width.inner || item.width.outer,
+                        height: item.height.inner || item.height.outer,
                         spriteWidth: data.css.spriteWidth,
                         spriteHeight: data.css.spriteHeight,
                         spriteName: fileName,
@@ -250,7 +254,6 @@ module.exports = postcss.plugin("postcss-sprite", (options = {}) => {
                 return Promise.resolve(spriteSoordinates);
             })
             .then(async result => {
-
                 // 先删除
                 rules.forEach(rule => {
                     rule.walkDecls(decl => {
